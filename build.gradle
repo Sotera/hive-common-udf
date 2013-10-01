@@ -1,0 +1,73 @@
+apply plugin: 'java'
+
+group = 'com.soteradefense.hive'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.trigonic:gradle-rpm-plugin:1.4'
+    }
+}
+
+configurations {
+    provided {
+        transitive = true
+    }
+    compile {
+        extendsFrom provided
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    mavenRepo url: "https://repository.cloudera.com/artifactory/cloudera-repos"
+}
+
+dependencies {
+    provided 'org.apache.hive:hive-exec:0.10.0-cdh4.3.0'
+    provided 'org.apache.hadoop:hadoop-client:2.0.0-mr1-cdh4.3.0'
+    provided 'org.slf4j:slf4j-api:1.6.6' // 1.6.4 is requested by cdh4.3.0 but it is no longer available on mavencentral?
+    testCompile 'junit:junit:4.11'
+}
+/*
+apply plugin: 'rpm'
+
+task buildRPM(type: Rpm) {
+    packageName = 'hive-common-udf'
+    version = '0.0.1'
+    release = 1
+    arch = NOARCH
+    os = LINUX
+
+    postInstall = file('scripts/set-xdata-common-udf-env.sh')
+    postUninstall = file('scripts/unset-xdata-common-udf-env.sh')
+
+    into '/usr/lib/xdata/common-udf'
+
+    from(jar.outputs.files) {
+        into 'lib'
+    }
+
+    from(configurations.runtime - configurations.provided) {
+        into 'lib'
+    }
+
+    from('scripts') {
+        into 'bin'
+        exclude 'database'
+        fileMode = 0550
+    }
+
+    from('src/main/resources/hql') {
+        into 'hql'
+    }
+}
+*/

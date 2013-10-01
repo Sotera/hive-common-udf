@@ -1,0 +1,1 @@
+CREATE TEMPORARY FUNCTION simple_date_format as 'com.soteradefense.hive.udf.SimpleDateFormatUDF';

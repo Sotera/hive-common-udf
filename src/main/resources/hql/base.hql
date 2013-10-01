@@ -1,0 +1,1 @@
+ADD JAR ${env:HIVE_COMMON_UDF}/lib/hive-common-udf-0.0.1-SNAPSHOT.jar;
